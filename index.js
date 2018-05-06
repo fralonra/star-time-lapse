@@ -92,19 +92,37 @@ function getPoint (x) {
   return Math.round(Math.random() * x);
 }
 
+function genStarColor () {
+  return '#'+Math.floor(Math.random()*16777215).toString(16);
+}
+
 function drawPoleStar (ctx, opt) {
-  ctx.arc(opt.pole.x + opt.offset.x, opt.pole.y + opt.offset.y, 10, 0, 2 * Math.PI, true);
-  ctx.closePath();
+  const x = opt.pole.x + opt.offset.x;
+  const y = opt.pole.y + opt.offset.y;
+  const color = genStarColor();
+  drawStar(ctx, {
+    x, y,
+    radius: 10,
+    color
+  });
 }
 
 function drawStars (ctx, opt) {
   for (let i = 0; i < opt.sum; ++i) {
-    drawStar(ctx, opt);
+    const x = getPoint(opt.radius * 2) + opt.offset.x;
+    const y = getPoint(opt.radius * 2) + opt.offset.y;
+    const color = genStarColor();
+    drawStar(ctx, {
+      x, y,
+      radius: 5,
+      color
+    });
   }
 }
 
-function drawStar (ctx, opt) {
-  ctx.arc(getPoint(opt.radius * 2) + opt.offset.x, getPoint(opt.radius * 2) + opt.offset.y, 5, 0, 2 * Math.PI, true);
+function drawStar (ctx, { x, y, radius, color }) {
+  ctx.fillStyle = color || '#fff';
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
   ctx.closePath();
 }
 
