@@ -1,0 +1,46 @@
+{
+  "name": "star-time-lapse",
+  "version": "0.0.1",
+  "description": "Drawing a star-filled sky with time-lapse effect",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "lint": "eslint *.js",
+    "umd": "NODE_ENV=development browserify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
+    "umd-min": "NODE_ENV=production browserify index.js -t envify -t babelify --presets [ env react ] -s StarTimeLapse -t uglifyify -o | uglifyjs --compress unused,dead_code -o star-time-lapse.min.js",
+    "build": "npm run umd && npm run umd-min",
+    "watch": "NODE_ENV=development watchify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fralonra/star-time-lapse.git"
+  },
+  "keywords": [
+    "diamond-square",
+    "heightmap"
+  ],
+  "author": "zoron (https://github.com/fralonra/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fralonra/star-time-lapse/issues"
+  },
+  "homepage": "https://github.com/fralonra/star-time-lapse#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babelify": "^8.0.0",
+    "browserify": "^16.1.1",
+    "envify": "^4.1.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "uglify-js": "^3.3.18",
+    "uglifyify": "^4.0.5",
+    "watchify": "^3.11.0"
+  }
+}
