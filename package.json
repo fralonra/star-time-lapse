@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "lint": "eslint *.js",
+    "lint": "eslint --fix *.js",
     "umd": "NODE_ENV=development browserify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
     "umd-min": "NODE_ENV=production browserify index.js -t envify -t babelify --presets [ env react ] -s StarTimeLapse -t uglifyify -o | uglifyjs --compress unused,dead_code -o star-time-lapse.min.js",
     "build": "npm run umd && npm run umd-min",
@@ -42,5 +42,8 @@
     "uglify-js": "^3.3.18",
     "uglifyify": "^4.0.5",
     "watchify": "^3.11.0"
+  },
+  "dependencies": {
+    "star-colors": "0.0.1"
   }
 }

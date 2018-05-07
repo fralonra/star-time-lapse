@@ -1,3 +1,5 @@
+const colors = require('star-colors');
+
 const option = Symbol('option');
 const wrapper = Symbol('wrapper');
 
@@ -33,7 +35,7 @@ class starTimeLapse {
     } else {
       this[wrapper] = document.body;
     }
-    
+
     const sky = document.createElement('div');
     sky.style.position = 'absolute';
     sky.style.top = this[option].top;
@@ -46,12 +48,12 @@ class starTimeLapse {
       sky.style[s] = this[option].style[s];
     });
     this[wrapper].appendChild(sky);
-    
+
     if (this[option].pole === -1) {
       this[option].pole = {
         x: sky.clientWidth / 2,
         y: sky.clientHeight / 2
-      }
+      };
     }
     /* drawing */
     const canvas = document.createElement('canvas');
@@ -68,19 +70,17 @@ class starTimeLapse {
     canvas.style.top = `-${this[option].offset.y}px`;
     if (canvas.getContext) {
       const ctx = canvas.getContext('2d');
-      ctx.fillStyle = 'red';
       if (this[option].poleStar) drawPoleStar(ctx, this[option]);
       drawStars(ctx, this[option]);
-      ctx.fill();
     }
-    
+
     sky.appendChild(canvas);
-    
+
     if (this[option].run) this.run();
   }
-  
+
   run () {}
-  
+
   stop () {}
 };
 
@@ -93,7 +93,7 @@ function getPoint (x) {
 }
 
 function genStarColor () {
-  return '#'+Math.floor(Math.random()*16777215).toString(16);
+  return colors.randomHex();
 }
 
 function drawPoleStar (ctx, opt) {
@@ -101,7 +101,8 @@ function drawPoleStar (ctx, opt) {
   const y = opt.pole.y + opt.offset.y;
   const color = genStarColor();
   drawStar(ctx, {
-    x, y,
+    x,
+    y,
     radius: 10,
     color
   });
@@ -113,7 +114,8 @@ function drawStars (ctx, opt) {
     const y = getPoint(opt.radius * 2) + opt.offset.y;
     const color = genStarColor();
     drawStar(ctx, {
-      x, y,
+      x,
+      y,
       radius: 5,
       color
     });
@@ -122,7 +124,9 @@ function drawStars (ctx, opt) {
 
 function drawStar (ctx, { x, y, radius, color }) {
   ctx.fillStyle = color || '#fff';
+  ctx.beginPath();
   ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
+  ctx.fill();
   ctx.closePath();
 }
 
