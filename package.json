@@ -6,10 +6,10 @@
   "scripts": {
     "start": "node index.js",
     "lint": "eslint --fix *.js",
-    "umd": "NODE_ENV=development browserify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
-    "umd-min": "NODE_ENV=production browserify index.js -t envify -t babelify --presets [ env react ] -s StarTimeLapse -t uglifyify -o | uglifyjs --compress unused,dead_code -o star-time-lapse.min.js",
+    "umd": "cross-env NODE_ENV=development browserify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
+    "umd-min": "cross-env NODE_ENV=production browserify index.js -t envify -t babelify --presets [ env react ] -s StarTimeLapse -t uglifyify -o | uglifyjs --compress unused,dead_code -o star-time-lapse.min.js",
     "build": "npm run umd && npm run umd-min",
-    "watch": "NODE_ENV=development watchify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
+    "watch": "cross-env NODE_ENV=development watchify index.js -t envify -s StarTimeLapse -o star-time-lapse.js",
     "prepublish": "npm run build"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "babel-preset-react": "^6.24.1",
     "babelify": "^8.0.0",
     "browserify": "^16.1.1",
+    "cross-env": "^5.1.4",
     "envify": "^4.1.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
