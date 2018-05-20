@@ -1,7 +1,11 @@
-const colors = require('star-colors');
+const Star = require('./star');
 
 const option = Symbol('option');
 const wrapper = Symbol('wrapper');
+const stars = [];
+const paths = [];
+let canvas;
+let ctx;
 
 class starTimeLapse {
   constructor (opt = {}) {
@@ -10,7 +14,10 @@ class starTimeLapse {
       sum: 50,
       pole: -1,
       poleStar: true,
+      radiusMin: 3,
+      radiusMax: 9,
       /* animation */
+      blink: true,
       run: true,
       clockwise: true,
       duration: 10000,
@@ -20,7 +27,7 @@ class starTimeLapse {
       left: 0,
       bottom: 0,
       right: 0,
-      background: '#2a1f66',
+      background: 'linear-gradient(#001, #232355)',
       style: {
         'z-index': -1,
         opacity: 0.8
@@ -49,16 +56,16 @@ class starTimeLapse {
     });
     this[wrapper].appendChild(sky);
 
-    if (this[option].pole === -1) {
-      this[option].pole = {
-        x: sky.clientWidth / 2,
-        y: sky.clientHeight / 2
-      };
-    }
     /* drawing */
-    const canvas = document.createElement('canvas');
+    canvas = document.createElement('canvas');
     canvas.innerHTML = 'Sorry, your browser does not support the canvas tag';
     this[option].radius = getRadius(sky.clientWidth / 2, sky.clientHeight / 2);
+    if (this[option].pole === -1) {
+      this[option].pole = {
+        x: this[option].radius,
+        y: this[option].radius
+      };
+    }
     this[option].offset = {
       x: this[option].radius - sky.clientWidth / 2,
       y: this[option].radius - sky.clientHeight / 2
@@ -69,7 +76,8 @@ class starTimeLapse {
     canvas.style.left = `-${this[option].offset.x}px`;
     canvas.style.top = `-${this[option].offset.y}px`;
     if (canvas.getContext) {
-      const ctx = canvas.getContext('2d');
+      ctx = canvas.getContext('2d');
+      ctx.translate(this[option].pole.x, this[option].pole.y);
       if (this[option].poleStar) drawPoleStar(ctx, this[option]);
       drawStars(ctx, this[option]);
     }
@@ -79,7 +87,33 @@ class starTimeLapse {
     if (this[option].run) this.run();
   }
 
-  run () {}
+  run () {
+    const degree = 360 / this[option].duration;
+    const animate = () => {
+      ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
+      paths.forEach((p, i) => {
+        p.push(stars[i].position());
+        if (p.length < 2) return;
+        if (p[0].x === 0 && p[0].y === 0) return;
+        ctx.beginPath();
+        p.forEach((pos, k) => {
+          if (k < 1) return;
+          ctx.lineTo(pos.x, pos.y);
+        });
+        ctx.strokeStyle = stars[i].color();
+        ctx.stroke();
+      });
+      stars.forEach(s => {
+        s.blink();
+        s.revolve(degree);
+        s.draw();
+      });
+      setTimeout(() => {
+        window.requestAnimationFrame(animate);
+      }, 24);
+    };
+    window.requestAnimationFrame(animate);
+  }
 
   stop () {}
 };
@@ -92,42 +126,41 @@ function getPoint (x) {
   return Math.round(Math.random() * x);
 }
 
-function genStarColor () {
-  return colors.randomHex();
-}
-
 function drawPoleStar (ctx, opt) {
-  const x = opt.pole.x + opt.offset.x;
-  const y = opt.pole.y + opt.offset.y;
-  const color = genStarColor();
+  const x = 0;
+  const y = 0;
+  const radius = Math.ceil(Math.random() * opt.radiusMax + opt.radiusMin);
+  const { pole, blink } = opt;
   drawStar(ctx, {
     x,
     y,
-    radius: 10,
-    color
+    radius,
+    blink,
+    pole
   });
 }
 
 function drawStars (ctx, opt) {
   for (let i = 0; i < opt.sum; ++i) {
-    const x = getPoint(opt.radius * 2) + opt.offset.x;
-    const y = getPoint(opt.radius * 2) + opt.offset.y;
-    const color = genStarColor();
+    const x = getPoint(opt.radius * 2) - opt.pole.x;
+    const y = getPoint(opt.radius * 2) - opt.pole.y;
+    const radius = Math.ceil(Math.random() * opt.radiusMax + opt.radiusMin);
+    const { pole, blink } = opt;
     drawStar(ctx, {
       x,
       y,
-      radius: 5,
-      color
+      radius,
+      blink,
+      pole
     });
   }
 }
 
-function drawStar (ctx, { x, y, radius, color }) {
-  ctx.fillStyle = color || '#fff';
-  ctx.beginPath();
-  ctx.arc(x, y, radius, 0, 2 * Math.PI, true);
-  ctx.fill();
-  ctx.closePath();
+function drawStar (ctx, opt) {
+  const star = new Star(ctx, opt);
+  stars.push(star);
+  paths.push([]);
+  star.draw();
 }
 
 module.exports = starTimeLapse;
