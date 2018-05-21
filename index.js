@@ -20,8 +20,9 @@ class starTimeLapse {
       blink: true,
       run: true,
       clockwise: true,
-      duration: 10000,
+      arc: 0.8,
       delay: 0,
+      duration: 10000,
       /* style */
       top: 0,
       left: 0,
@@ -94,6 +95,7 @@ class starTimeLapse {
       paths.forEach((p, i) => {
         p.push(stars[i].position());
         if (p.length < 2) return;
+        if (p.length > this[option].duration * this[option].arc) p.splice(0, 1);
         if (p[0].x === 0 && p[0].y === 0) return;
         ctx.beginPath();
         p.forEach((pos, k) => {
@@ -112,7 +114,7 @@ class starTimeLapse {
         window.requestAnimationFrame(animate);
       }, 24);
     };
-    window.requestAnimationFrame(animate);
+    animate();
   }
 
   stop () {}
