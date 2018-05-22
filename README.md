@@ -46,7 +46,7 @@ Include the `javascript` file in your **Html** and make a new `StarTimeLapse`:
 | radiusMin | The minimun radius of a star in px. | Number | 3 |
 | radiusMax | The maximun radius of a star in px. | Number | 9 |
 | blink | Will the star blink or not. | Boolean | true |
-| arc | The percentage of the star's track remains in the sky as time runs. Range from 0 to 1. | Number | 0.8 |
+| arc | The percentage of the star's track remains in the sky as time flies. Range from 0 (no track) to 1 (a full circle track). | Number | 0.8 |
 | duration | How long stars spin one turn in milliseconds. | Number | 10000 |
 | top | The `top` CSS property of the sky element. | Number | 0 |
 | left | The `left` CSS property of the sky element. | Number | 0 |
