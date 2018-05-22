@@ -23,6 +23,7 @@ class starTimeLapse {
       arc: 0.8,
       delay: 0,
       duration: 10000,
+      fps: 60,
       /* style */
       top: 0,
       left: 0,
@@ -89,13 +90,14 @@ class starTimeLapse {
   }
 
   run () {
-    const degree = 360 / this[option].duration;
+    const interval = Math.round(1000 / this[option].fps);
+    const degree = 360 * interval / this[option].duration;
     const animate = () => {
       ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
       paths.forEach((p, i) => {
         p.push(stars[i].position());
         if (p.length < 2) return;
-        if (p.length > this[option].duration * this[option].arc) p.splice(0, 1);
+        if (p.length > this[option].duration / interval * this[option].arc) p.splice(0, 1);
         if (p[0].x === 0 && p[0].y === 0) return;
         ctx.beginPath();
         p.forEach((pos, k) => {
@@ -112,7 +114,7 @@ class starTimeLapse {
       });
       setTimeout(() => {
         window.requestAnimationFrame(animate);
-      }, 24);
+      }, interval);
     };
     animate();
   }
