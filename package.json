@@ -1,6 +1,6 @@
 {
   "name": "star-time-lapse",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Drawing a star-filled sky with time-lapse effect",
   "main": "index.js",
   "scripts": {
