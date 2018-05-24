@@ -7,7 +7,7 @@ const paths = [];
 let canvas;
 let ctx;
 
-class starTimeLapse {
+class StarTimeLapse {
   constructor (opt = {}) {
     this.defaultOption = {
       /* drawing */
@@ -92,6 +92,7 @@ class starTimeLapse {
   run () {
     const interval = Math.round(1000 / this[option].fps);
     const degree = 360 * interval / this[option].duration;
+    const { clockwise } = this[option];
     const animate = () => {
       ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
       paths.forEach((p, i) => {
@@ -109,7 +110,7 @@ class starTimeLapse {
       });
       stars.forEach(s => {
         s.blink();
-        s.revolve(degree);
+        s.revolve(degree, clockwise);
         s.draw();
       });
       setTimeout(() => {
@@ -167,4 +168,4 @@ function drawStar (ctx, opt) {
   star.draw();
 }
 
-module.exports = starTimeLapse;
+module.exports = StarTimeLapse;

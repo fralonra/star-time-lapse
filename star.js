@@ -56,10 +56,15 @@ class Star {
     }
   }
 
-  revolve (degree) {
+  revolve (degree, clockwise = true) {
     if (this.x === 0 && this.y === 0) return;
-    if (this.degree >= 360) this.degree = 0;
-    this.degree += degree;
+    if (clockwise) {
+      if (this.degree >= 360) this.degree = this.degree - 360;
+      this.degree += degree;
+    } else {
+      if (this.degree <= 0) this.degree = 360 + this.degree;
+      this.degree -= degree;
+    }
     this.x = this.distance * Math.cos(getRadians(this.degree));
     this.y = this.distance * Math.sin(getRadians(this.degree));
   }
