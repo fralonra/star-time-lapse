@@ -36,6 +36,12 @@ Include the `javascript` file in your **Html** and make a new `StarTimeLapse`:
 
 ## API
 
+### methods
+
+* toggle()
+To start or stop the animation. If `run` is set to `false` in options, you should manually call this function to start the animation.
+
+
 ### options
 | Option | Description | Type | Default |
 | --- | --- | --- | --- |
@@ -46,6 +52,7 @@ Include the `javascript` file in your **Html** and make a new `StarTimeLapse`:
 | radiusMin | The minimun radius of a star in px. | Number | 3 |
 | radiusMax | The maximun radius of a star in px. | Number | 9 |
 | blink | Will the star blink or not. | Boolean | true |
+| run | Will the animation start automatically when you create an instance. | Boolean | true |
 | clockwise | Spin clockwise or not. | Boolean | true |
 | arc | The percentage of the star's track remains in the sky as time flies. Range from 0 (no track) to 1 (a full circle track). | Number | 0.8 |
 | duration | How long stars spin one turn in milliseconds. | Number | 10000 |

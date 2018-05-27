@@ -6,13 +6,47 @@
   <title>Star Time Lapse</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="star-time-lapse.min.js"></script>
+  <style>
+    #toggle-run {
+      display: inline;
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      padding: 1rem;
+      background: #ccc;
+      border-radius: 2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      opacity: .7;
+    }
+    #toggle-run:hover {
+      background: #fff;
+      transition: background .5s ease;
+    }
+  </style>
 </head>
 <body>
   <a href="https://github.com/fralonra/star-time-lapse">
     <img style="position: absolute; top: 0; right: 0; border: 0;" src="forkme.png" alt="Fork me on GitHub">
   </a>
+  <div id="toggle-run"><div>
   <script>
-    const s = new StarTimeLapse();
+    let running = true;
+    const toggleRun = document.getElementById('toggle-run');
+    const s = new StarTimeLapse({
+      run: running
+    });
+    setToggleRunText();
+
+    toggleRun.addEventListener('click', () => {
+      setToggleRunText();
+      running = !running;
+      s.toggle();
+    });
+
+    function setToggleRunText () {
+      toggleRun.innerHTML = running ? 'Stop' : 'Start';
+    }
   </script>
 </body>
 </html>

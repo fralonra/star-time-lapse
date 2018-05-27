@@ -6,6 +6,7 @@ const stars = [];
 const paths = [];
 let canvas;
 let ctx;
+let running = false;
 
 class StarTimeLapse {
   constructor (opt = {}) {
@@ -86,41 +87,54 @@ class StarTimeLapse {
 
     sky.appendChild(canvas);
 
-    if (this[option].run) this.run();
+    if (this[option].run) this.toggle();
   }
 
-  run () {
+  toggle () {
     const interval = Math.round(1000 / this[option].fps);
     const degree = 360 * interval / this[option].duration;
     const { clockwise } = this[option];
     const animate = () => {
-      ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
-      paths.forEach((p, i) => {
-        p.push(stars[i].position());
-        if (p.length < 2) return;
-        if (p.length > this[option].duration / interval * this[option].arc) p.splice(0, 1);
-        if (p[0].x === 0 && p[0].y === 0) return;
-        ctx.beginPath();
-        p.forEach((pos, k) => {
-          if (k < 1) return;
-          ctx.lineTo(pos.x, pos.y);
+      if (running) {
+        ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
+        paths.forEach((p, i) => {
+          p.push(stars[i].position());
+          if (p.length < 2) return;
+          if (p.length > this[option].duration / interval * this[option].arc) p.splice(0, 1);
+          if (p[0].x === 0 && p[0].y === 0) return;
+          ctx.beginPath();
+          p.forEach((pos, k) => {
+            if (k < 1) return;
+            ctx.lineTo(pos.x, pos.y);
+          });
+          ctx.strokeStyle = stars[i].color();
+          ctx.stroke();
         });
-        ctx.strokeStyle = stars[i].color();
-        ctx.stroke();
-      });
-      stars.forEach(s => {
-        s.blink();
-        s.revolve(degree, clockwise);
-        s.draw();
-      });
-      setTimeout(() => {
-        window.requestAnimationFrame(animate);
-      }, interval);
+        stars.forEach(s => {
+          s.blink();
+          s.revolve(degree, clockwise);
+          s.draw();
+        });
+        setTimeout(() => {
+          window.requestAnimationFrame(animate);
+        }, interval);
+      }
     };
+
+    const start = () => {
+      running = true;
+    }
+    const stop = () => {
+      running = false;
+    };
+
+    if (!running) {
+      start();
+    } else {
+      stop();
+    }
     animate();
   }
-
-  stop () {}
 };
 
 function getRadius (x, y) {
