@@ -38,7 +38,8 @@ Include the `javascript` file in your **Html** and make a new `StarTimeLapse`:
 
 ### methods
 
-* toggle()
+#### toggle()
+
 To start or stop the animation. If `run` is set to `false` in options, you should manually call this function to start the animation.
 
 
