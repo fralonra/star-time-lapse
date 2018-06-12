@@ -12,9 +12,11 @@
       position: absolute;
       top: 1rem;
       left: 1rem;
+      width: 4rem;
       padding: 1rem;
       background: #ccc;
       border-radius: 2rem;
+      text-align: center;
       font-size: 1.5rem;
       cursor: pointer;
       opacity: .7;
@@ -39,8 +41,8 @@
     setToggleRunText();
 
     toggleRun.addEventListener('click', () => {
-      setToggleRunText();
       running = !running;
+      setToggleRunText();
       s.toggle();
     });
 

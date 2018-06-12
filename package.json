@@ -1,6 +1,6 @@
 {
   "name": "star-time-lapse",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Drawing a star-filled sky with time-lapse effect",
   "main": "index.js",
   "scripts": {
@@ -17,8 +17,8 @@
     "url": "git+https://github.com/fralonra/star-time-lapse.git"
   },
   "keywords": [
-    "diamond-square",
-    "heightmap"
+    "canvas",
+    "time-lapse"
   ],
   "author": "zoron (https://github.com/fralonra/)",
   "license": "MIT",
