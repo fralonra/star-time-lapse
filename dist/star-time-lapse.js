@@ -4,7 +4,6 @@ const Star = require('./star');
 const option = Symbol('option');
 const wrapper = Symbol('wrapper');
 const stars = [];
-const paths = [];
 let canvas;
 let ctx;
 let running = false;
@@ -94,24 +93,17 @@ class StarTimeLapse {
   toggle () {
     const interval = Math.round(1000 / this[option].fps);
     const degree = 360 * interval / this[option].duration;
-    const { clockwise } = this[option];
+    const { arc, clockwise } = this[option];
     const animate = () => {
       if (running) {
         ctx.clearRect(-this[option].pole.x, -this[option].pole.y, canvas.getAttribute('width'), canvas.getAttribute('height'));
-        paths.forEach((p, i) => {
-          p.push(stars[i].position());
-          if (p.length < 2) return;
-          if (p.length > this[option].duration / interval * this[option].arc) p.splice(0, 1);
-          if (p[0].x === 0 && p[0].y === 0) return;
+        stars.forEach((s, i) => {
+          const atan = Math.atan2(s.y, s.x);
           ctx.beginPath();
-          p.forEach((pos, k) => {
-            if (k < 1) return;
-            ctx.lineTo(pos.x, pos.y);
-          });
-          ctx.strokeStyle = stars[i].color();
+          ctx.arc(0, 0, s.distance, atan, atan + Math.PI * arc, clockwise);
+          ctx.strokeStyle = s.color();
           ctx.stroke();
-        });
-        stars.forEach(s => {
+          ctx.closePath();
           s.blink();
           s.revolve(degree, clockwise);
           s.draw();
@@ -179,7 +171,6 @@ function drawStars (ctx, opt) {
 function drawStar (ctx, opt) {
   const star = new Star(ctx, opt);
   stars.push(star);
-  paths.push([]);
   star.draw();
 }
 
