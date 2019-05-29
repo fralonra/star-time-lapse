@@ -50,8 +50,8 @@ To start or stop the animation. If `run` is set to `false` in options, you shoul
 | sum | The amount of stars in the sky. Pole star excluded. | Number | 50 |
 | pole | The polar coordinate. A valid value is an object with `x` and `y` as properties. For example, `{ x: 10, y: 10 }`. Default to the center of the sky element. | Object | - |
 | poleStar | Draw a pole star or not. | Boolean | true |
-| radiusMin | The minimun radius of a star in px. | Number | 3 |
-| radiusMax | The maximun radius of a star in px. | Number | 9 |
+| radiusMin | The minimum radius of a star in px. | Number | 3 |
+| radiusMax | The maximum radius of a star in px. | Number | 9 |
 | blink | Will the star blink or not. | Boolean | true |
 | run | Will the animation start automatically when you create an instance. | Boolean | true |
 | clockwise | Spin clockwise or not. | Boolean | true |
