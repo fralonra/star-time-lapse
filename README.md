@@ -1,6 +1,6 @@
 # star-time-lapse
 
-[![Build Status](https://travis-ci.org/fralonra/star-time-lapse.svg?branch=master)](https://travis-ci.org/fralonra/star-time-lapse)
+[![Build Status](https://travis-ci.com/fralonra/star-time-lapse.svg?branch=master)](https://travis-ci.com/fralonra/star-time-lapse)
 [![npm version](https://img.shields.io/npm/v/star-time-lapse.svg)](https://www.npmjs.com/package/star-time-lapse)
 
 Using canvas to draw a star-filled sky with time-lapse effect. The color of the star is generated randomly by [star-colors](https://github.com/fralonra/star-colors).
