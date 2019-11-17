@@ -10,7 +10,8 @@
     "umd-min": "cross-env NODE_ENV=production browserify index.js -t envify -t babelify --presets [ env react ] -s StarTimeLapse -t uglifyify -o | uglifyjs --compress unused,dead_code -o dist/star-time-lapse.min.js",
     "build": "npm run umd && npm run umd-min",
     "watch": "cross-env NODE_ENV=development watchify index.js -t envify -s StarTimeLapse -o dist/star-time-lapse.js",
-    "prepublish": "npm run build"
+    "prepublish": "npm run build",
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
